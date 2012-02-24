@@ -23,7 +23,11 @@ class Bitbucket:
         self.overview = json.loads(get_url(url))
         self.issues = []
         for i in range(1, self.overview['count'] + 1):
-            self.issues.append(json.loads(get_url(url + str(i))))
+            issue_url = url + str(i) + '/'
+            issue = json.loads(get_url(issue_url))
+            comments_url = issue_url + 'comments/'
+            issue['comments'] = json.loads(get_url(comments_url))
+            self.issues.append(issue)
 
     def build_components(self):
         self.components = set()
